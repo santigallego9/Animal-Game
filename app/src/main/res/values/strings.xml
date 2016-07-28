@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Animal Game</string>
+    <string name="instructions">Think of an animal and then press play! You will be asked a series of questions and the game will try to figure out what your animal is! Hit play when you\'re ready</string>
+    <string name="title">Animal Game!</string>
+    <string name="play">Play!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="loading">Loading...</string>
+</resources>
