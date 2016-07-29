@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff">
+
+    <TextView
+        android:id="@+id/last"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Last question..."
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
+        android:padding="40sp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/animal_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Is [animal] the yes or no answer to the question:"
+        android:layout_below="@+id/last"
+        android:padding="10sp"/>
+
+    <TextView
+        android:id="@+id/user_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="5sp"
+        android:text="The question would go here"
+        android:layout_below="@+id/animal_question"
+        android:background="#f0f0f0"
+        android:padding="10sp"/>
+
+    <Button
+        android:id="@+id/no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NO"
+        android:layout_gravity="right"
+        android:layout_marginBottom="10sp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_below="@id/user_question"
+        android:layout_alignRight="@+id/user_question" />
+
+    <Button
+        android:id="@+id/yes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="YES"
+        android:layout_gravity="right"
+        android:layout_marginBottom="10sp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_below="@id/user_question"
+        android:layout_toLeftOf="@id/no" />
+
+</RelativeLayout>

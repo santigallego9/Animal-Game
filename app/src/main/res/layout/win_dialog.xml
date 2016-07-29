@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff">
+
+    <TextView
+        android:id="@+id/win"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I WON!!"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
+        android:padding="40sp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/win_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I win!! Click OK to play again!!"
+        android:layout_below="@+id/win"
+        android:padding="10sp"/>
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_gravity="right"
+        android:layout_marginBottom="10sp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_below="@id/win_text"
+        android:layout_alignRight="@+id/win_text" />
+
+
+</RelativeLayout>

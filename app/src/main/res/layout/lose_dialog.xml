@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff">
+
+    <TextView
+        android:id="@+id/lose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I lose :("
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
+        android:padding="40sp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/user_animal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="What was your animal?"
+        android:layout_below="@+id/lose"
+        android:padding="10sp"/>
+
+    <EditText
+        android:id="@+id/animal_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_animal"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:inputType="textCapSentences"
+        android:maxLines="1"/>
+
+    <TextView
+        android:id="@+id/difference_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="What is a yes or no question to seperate your animal from a "
+        android:padding="10sp"
+        android:layout_below="@+id/animal_answer"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/question_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/difference_question"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:inputType="textCapSentences"
+        android:maxLines="1"/>
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_gravity="right"
+        android:layout_marginBottom="10sp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_below="@id/question_answer"
+        android:layout_alignRight="@+id/question_answer" />
+
+
+</RelativeLayout>
