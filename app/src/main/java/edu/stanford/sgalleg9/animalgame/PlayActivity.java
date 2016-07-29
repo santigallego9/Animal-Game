@@ -12,7 +12,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import stanford.androidlib.SimpleActivity;
@@ -55,7 +54,11 @@ public class PlayActivity extends SimpleActivity {
 
     public void noClick(View view) {
         questionView.setText("Loading...");
-        setType(NO);
+        try {
+            setType(NO);
+        } catch (Exception e) {
+            log("Early click: " + e);
+        }
 
         /*Log.d("DB ERROR", "In node: " + node.get("id") + ", the type is incorrectly set as: " + node.get("type"));
         Firebase nodes = fb.child("nodes/");
@@ -73,7 +76,11 @@ public class PlayActivity extends SimpleActivity {
 
     public void yesClick(View view) {
         questionView.setText("Loading...");
-        setType(YES);
+        try {
+            setType(YES);
+        } catch (Exception e) {
+            log("Early click: " + e);
+        }
     }
 
     public void checkDatabaseAnswer(final String type) {
@@ -105,9 +112,12 @@ public class PlayActivity extends SimpleActivity {
                             for(DataSnapshot record : dataSnapshot.getChildren()) {
                                 String key = record.getKey();
 
+                                //toast(key);
+
                                 if(record.child(TYPE).getValue().toString().equals(type)) {
 
                                     final Firebase new_single_node = nodes.child(record.child("child_id").getValue().toString());
+                                    final HashMap<String, String> result = new HashMap<String, String>();
 
                                     new_single_node.addChildEventListener(new ChildEventListener() {
                                         @Override
@@ -115,9 +125,12 @@ public class PlayActivity extends SimpleActivity {
                                             String key = dataSnapshot.getKey().toString();
                                             Object value = dataSnapshot.getValue();
 
-                                            if(key.equals("text")) {
-                                                //toast("Is your animal a " + value.toString());
-                                                questionView.setText("Is your animal a " + value.toString());
+                                            Log.d("DEBUG", "KEY: " + key + "\n" + "VALUE: " + value.toString());
+
+                                            result.put(key, value.toString());
+
+                                            if(key.equals("type")) {
+                                                displayAnswer(result);
                                             }
                                         }
 
@@ -192,16 +205,7 @@ public class PlayActivity extends SimpleActivity {
                 for(DataSnapshot record : dataSnapshot.getChildren()) {
                     String key = record.getKey();
 
-                    //toast("entered");
-
-                    /*toast(record.child("type").getValue().toString());
-                    toast(type);
-                    toast(record.child("type").getValue().toString().equals(type));*/
-
                     if(record.child("type").getValue().toString().equals(type)) {
-                        //setType(record.child("child_id").getValue().toString());
-                        //toast(current_type);
-                        //toast(current_type.equals(ANSWER));
                         try {
                             if(current_type.get(TYPE).equals(QUESTION)) {
                                 checkDatabase(record.child("child_id").getValue().toString());
@@ -337,5 +341,73 @@ public class PlayActivity extends SimpleActivity {
         });
 
         // nodes.child("tester").setValue("this is a test");
+    }
+
+    public void displayAnswer(HashMap<String, String> hash) {
+
+        ViewDialog alert = new ViewDialog();
+        alert.showQuestionDialog(PlayActivity.this, hash);
+        /*new AlertDialog.Builder(PlayActivity.this)
+                .setTitle("My guess is...")
+                .setMessage("Was your animal a " + hash.get("text"))
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface lose_dialog, int which) {
+                        toast("I win");
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface lose_dialog, int which) {
+
+                        final EditText animal = new EditText(PlayActivity.this);
+                        animal.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                        new AlertDialog.Builder(PlayActivity.this)
+                                .setMessage("What was your animal?")
+                                .setView(animal)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface lose_dialog, int which) {
+
+                                        toast(animal.getText().toString());
+
+                                        final EditText question = new EditText(PlayActivity.this);
+                                        question.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                                        new AlertDialog.Builder(PlayActivity.this)
+                                                .setMessage("What is a question to seperate a " + animal.getText().toString().toLowerCase() + " from an [animal]")
+                                                .setView(question)
+                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface lose_dialog, int which) {
+
+                                                        toast(question.getText().toString());
+
+                                                        Intent intent = new Intent(PlayActivity.this, MainActivity.class);
+                                                        startActivity(intent);
+
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                })
+                                .show();
+                    }
+                })
+                .show();*/
+        /*new AlertDialog.Builder(context)
+                .setTitle("Delete entry")
+                .setMessage("Are you sure you want to delete this entry?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface lose_dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface lose_dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();*/
     }
 }
