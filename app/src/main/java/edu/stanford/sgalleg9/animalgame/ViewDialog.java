@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 
@@ -141,6 +144,59 @@ public class ViewDialog {
                 Toast.makeText(activity, hash.get("text").toString(), Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(activity, MainActivity.class);
                 activity.startActivity(intent);
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    public void showReportDialog(final Activity activity, final HashMap<String, String> hash, final String type){
+        final android.app.Dialog dialog = new android.app.Dialog(activity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.report_dialog);
+
+        TextView issueTextView = (TextView) dialog.findViewById(R.id.issue_question);
+        TextView title = (TextView) dialog.findViewById(R.id.issue_title);
+        final EditText issue = (EditText) dialog.findViewById(R.id.issue);
+
+        issueTextView
+                .setText("What is wrong with this " + type.toLowerCase() + "?");
+
+
+        title.setText("Report " + type.toLowerCase());
+
+        Button okButton = (Button) dialog.findViewById(R.id.ok);
+        Button cancelButton = (Button) dialog.findViewById(R.id.cancel);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+                Firebase fb = new Firebase(PlayActivity.URL);
+
+                Firebase nodes = fb.child("nodes/");
+                Firebase reports = fb.child("reports/");
+
+                String timeStamp = new SimpleDateFormat("MMddyyyyHHmmss").format(new java.util.Date());
+
+                Firebase single_node = nodes.child(hash.get("id"));
+                single_node.child("reports").setValue(Integer.parseInt(hash.get("reports")) + 1);
+
+                reports.child(timeStamp).child("node_id").setValue(Integer.parseInt(hash.get("id")));
+                reports.child(timeStamp).child("issue").setValue(issue.getText().toString());
+                reports.child(timeStamp).child("admin").setValue(false);
+
+                Toast.makeText(activity, type + " reported", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
 
