@@ -43,12 +43,12 @@ public class PopulateDb {
                     final int graph_count = Integer.parseInt(counts.get("graph_count"));
 
                     nodes.child((node_count + 1) + "").child("id").setValue((node_count + 1));
-                    nodes.child((node_count + 1) + "").child("report").setValue(0);
+                    nodes.child((node_count + 1) + "").child("reports").setValue(0);
                     nodes.child((node_count + 1) + "").child("type").setValue("question");
                     nodes.child((node_count + 1) + "").child("text").setValue(question);
 
                     nodes.child((node_count + 2) + "").child("id").setValue((node_count + 2));
-                    nodes.child((node_count + 2) + "").child("report").setValue(0);
+                    nodes.child((node_count + 2) + "").child("reports").setValue(0);
                     nodes.child((node_count + 2) + "").child("type").setValue("answer");
                     nodes.child((node_count + 2) + "").child("text").setValue(animal);
 
