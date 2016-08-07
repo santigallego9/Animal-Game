@@ -363,7 +363,7 @@ public class PlayActivity extends SimpleActivity {
             ViewDialog alert = new ViewDialog();
             alert.showReportDialog(PlayActivity.this, node, type);
         } catch (Exception e) {
-            toast(e);
+            //toast(e);
         }
     }
 
@@ -375,7 +375,7 @@ public class PlayActivity extends SimpleActivity {
             ViewDialog alert = new ViewDialog();
             alert.showReportDialog(PlayActivity.this, answer_node, type);
         } catch (Exception e) {
-            toast(e);
+            //toast(e);
         }
     }
 }
