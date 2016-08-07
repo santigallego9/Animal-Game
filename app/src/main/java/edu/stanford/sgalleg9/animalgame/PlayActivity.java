@@ -1,5 +1,7 @@
 package edu.stanford.sgalleg9.animalgame;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import stanford.androidlib.SimpleActivity;
@@ -26,6 +29,7 @@ public class PlayActivity extends SimpleActivity {
     final private static String TYPE = "type";
 
     final HashMap<String, String> node = new HashMap<>();
+    final HashMap<String, String> answer_node = new HashMap<>();
     final HashMap<String, String> graph = new HashMap<>();
     final HashMap<String, String> current_type = new HashMap<>();
     TextView questionView;
@@ -128,6 +132,7 @@ public class PlayActivity extends SimpleActivity {
                                             Log.d("DEBUG", "KEY: " + key + "\n" + "VALUE: " + value.toString());
 
                                             result.put(key, value.toString());
+                                            answer_node.put(key, value.toString());
 
                                             if(key.equals("type")) {
                                                 displayAnswer(result);
@@ -347,67 +352,30 @@ public class PlayActivity extends SimpleActivity {
 
         ViewDialog alert = new ViewDialog();
         alert.showQuestionDialog(PlayActivity.this, hash);
-        /*new AlertDialog.Builder(PlayActivity.this)
-                .setTitle("My guess is...")
-                .setMessage("Was your animal a " + hash.get("text"))
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface lose_dialog, int which) {
-                        toast("I win");
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface lose_dialog, int which) {
 
-                        final EditText animal = new EditText(PlayActivity.this);
-                        animal.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-                        new AlertDialog.Builder(PlayActivity.this)
-                                .setMessage("What was your animal?")
-                                .setView(animal)
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface lose_dialog, int which) {
+    }
 
-                                        toast(animal.getText().toString());
+    public void reportClick(View view) {
 
-                                        final EditText question = new EditText(PlayActivity.this);
-                                        question.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-                                        new AlertDialog.Builder(PlayActivity.this)
-                                                .setMessage("What is a question to seperate a " + animal.getText().toString().toLowerCase() + " from an [animal]")
-                                                .setView(question)
-                                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface lose_dialog, int which) {
+        try {
+            String type = node.get("type").substring(0, 1).toUpperCase() + node.get("type").substring(1);
 
-                                                        toast(question.getText().toString());
+            ViewDialog alert = new ViewDialog();
+            alert.showReportDialog(PlayActivity.this, node, type);
+        } catch (Exception e) {
+            toast(e);
+        }
+    }
 
-                                                        Intent intent = new Intent(PlayActivity.this, MainActivity.class);
-                                                        startActivity(intent);
+    public void reportAnswerClick(View view) {
 
-                                                    }
-                                                })
-                                                .show();
-                                    }
-                                })
-                                .show();
-                    }
-                })
-                .show();*/
-        /*new AlertDialog.Builder(context)
-                .setTitle("Delete entry")
-                .setMessage("Are you sure you want to delete this entry?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface lose_dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface lose_dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();*/
+        try {
+            String type = answer_node.get("type").substring(0, 1).toUpperCase() + answer_node.get("type").substring(1);
+
+            ViewDialog alert = new ViewDialog();
+            alert.showReportDialog(PlayActivity.this, answer_node, type);
+        } catch (Exception e) {
+            toast(e);
+        }
     }
 }
